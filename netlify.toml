@@ -110,6 +110,5 @@
 # for environment variables. Environment variables for Netlify 
 # Dev should be set under [context.dev.environment] instead.
 [dev]
-  command = "echo 'hello 2'"
-  port = 1234
-  publish = "dist"
+  command = ""
+  publish = "build/"

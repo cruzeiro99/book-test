@@ -1,12 +1,13 @@
 import React from "react"
 import {observer} from "mobx-react"
+import { URIS } from "Api"
 
 export const Book = observer(function Book({book}) {
 	let { id, name, povCharacters } = book;
 	return (
 		<div className="Book">
 			<div className="cover">
-				<img src={`http://localhost:3000/bookImage/${id}`} alt="Hello"/>
+				<img src={URIS.image(id)} alt="Hello"/>
 			</div>
 			<div className="name">
 				<p>{name}</p>

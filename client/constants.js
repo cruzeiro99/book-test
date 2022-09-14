@@ -1,3 +1,6 @@
-export const ENV = "production"
+export const ENV = "development"
+// export const ENV = "production"
 
-export const API = ENV === "development" ? "http://localhost:3000/" : "/.netlify/functions/api/"
+let {href} = window.location;
+
+export const API = ENV === "development" ? "http://localhost:3000/" : href+".netlify/functions/api/"

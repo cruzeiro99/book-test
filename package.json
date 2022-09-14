@@ -4,12 +4,13 @@
   "description": "",
   "alias": {
     "constants": "./client/constants.js",
-    "Store": "./client/store/store.js"
+    "Store": "./client/store/store.js",
+    "Api": "./client/api/api.js"
   },
   "scripts": {
     "test": "jest --watchAll function/**/*.spec.js --runInBand",
-    "start:dev": "nodemon function/api.js",
-    "start": "node function/api.js",
+    "start:dev": "nodemon functions/api.js",
+    "start": "node functions/api.js",
     "serve": "parcel serve client/index.html",
     "build": "parcel build client/index.html --dist-dir build"
   },
@@ -27,7 +28,6 @@
     "mobx-react": "^7.5.3",
     "mongoose": "^6.6.0",
     "nedb": "^1.8.0",
-    "netlify-lambda": "^2.0.15",
     "node-base64-image": "^2.0.4",
     "node-localstorage": "^2.2.1",
     "react": "^18.2.0",

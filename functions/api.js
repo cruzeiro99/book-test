@@ -6,6 +6,7 @@ const {Base64} = require("js-base64")
 const {ENV,PORT} = process.env;
 const axios = require('axios')
 const serverless = require("serverless-http");
+const base64 = require("js-base64")
 
 const app = express();
 const router = express.Router();
@@ -23,7 +24,6 @@ const error = (message) => {
 let cache = {
 	books: undefined
 }
-const imageURL = (isbn) => `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
 
 router.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -35,10 +35,12 @@ router.get("/bookImage/:id", async (req, res) => {
 	let books = await database.books.find({ id }, {select: ['image']})
 	if (books.length < 1)
 		return res.send(`Error getting image for ${id}`);
-	res.setHeader("Content-Type", "image/jpg; charset=utf-8");
 	let image = Buffer.from(books[0].image, 'base64');
+	// let image = "data:image/jpg;base64,"+books[0].image;
+	res.setHeader("Content-Type", "image/jpg");
+	res.setHeader("Content-Length", image.length.toString());
 	res.end(image);
-	// res.send(`${books[0].image}`);
+	// res.send(image);
 })
 router.get("/books", async (req, res) => {
 	console.time("FETCHING BOOKS")
