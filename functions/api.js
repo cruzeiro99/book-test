@@ -25,6 +25,11 @@ let cache = {
 }
 const imageURL = (isbn) => `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`
 
+router.use((req, res, next) => {
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader("Access-Control-Allow-Headers", "*");
+	next();
+})
 router.get("/bookImage/:id", async (req, res) => {
 	let id = parseInt(req.params.id);
 	let books = await database.books.find({ id }, {select: ['image']})
@@ -36,12 +41,13 @@ router.get("/bookImage/:id", async (req, res) => {
 	// res.send(`${books[0].image}`);
 })
 router.get("/books", async (req, res) => {
-	res.setHeader("Cache-Control", "private");
+	console.time("FETCHING BOOKS")
 	let data;
 	if (cache.books)
 		data = cache.books;
 	else
 		data = await findBook();
+	console.timeEnd("FETCHING BOOKS");
 	res.json(data);
 })
 router.get('/book/:id', async (req, res) => {
@@ -50,13 +56,6 @@ router.get('/book/:id', async (req, res) => {
 		return res.json(error("Invalid id"));
 	let data = await findBook({id});
 	res.json(data);
-})
-router.use((req, res, next) => {
-	if (ENV === "development") {
-		res.setHeader("Access-Control-Allow-Origin", "*");
-		res.setHeader("Access-Control-Allow-Headers", "*");
-	}
-	next();
 })
 
 app.use('/.netlify/functions/api', router);

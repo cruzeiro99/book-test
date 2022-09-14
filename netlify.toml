@@ -18,7 +18,7 @@
   command = "echo 'default context'"
 [context.production]
   publish = "build/"
-  command = "npm run build"
+  command = "echo 'hello'"
   environment = { NODE_VERSION = "14.15.3" }
 
 # Deploy Preview context: all deploys generated from
@@ -113,6 +113,6 @@
 # for environment variables. Environment variables for Netlify 
 # Dev should be set under [context.dev.environment] instead.
 [dev]
-  command = "npm run serve"
+  command = "echo 'hello 2'"
   port = 1234
   publish = "dist"
