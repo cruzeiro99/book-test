@@ -7,9 +7,9 @@
     "Store": "./client/store/store.js"
   },
   "scripts": {
-    "test": "jest --watchAll src/**/*.spec.js --runInBand",
-    "start:dev": "nodemon src/api.js",
-    "start": "node src/api.js",
+    "test": "jest --watchAll function/**/*.spec.js --runInBand",
+    "start:dev": "nodemon function/api.js",
+    "start": "node function/api.js",
     "serve": "parcel serve client/index.html",
     "build": "parcel build client/index.html --dist-dir build"
   },
@@ -27,6 +27,7 @@
     "mobx-react": "^7.5.3",
     "mongoose": "^6.6.0",
     "nedb": "^1.8.0",
+    "netlify-lambda": "^2.0.15",
     "node-base64-image": "^2.0.4",
     "node-localstorage": "^2.2.1",
     "react": "^18.2.0",

@@ -13,7 +13,7 @@ const BooksSchema = new Schema({
 	released: { type: String, default: "1996-08-01T00:00:00" },
 	characters: { type: [ObjectId], ref: "Character" },
 	povCharacters: { type: [ObjectId], ref: "Character" },
-}, {toObject: {virtuals: true}, toJSON: {virtuals: true}})
+})
 
 // BooksSchema.virtual("_characters", {
 // 	ref: "Character",

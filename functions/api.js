@@ -5,6 +5,7 @@ const database = require("./database/database");
 const {Base64} = require("js-base64")
 const {ENV,PORT} = process.env;
 const axios = require('axios')
+const serverless = require("serverless-http");
 
 const app = express();
 const router = express.Router();
@@ -50,18 +51,20 @@ router.get('/book/:id', async (req, res) => {
 	let data = await findBook({id});
 	res.json(data);
 })
-app.use((req, res, next) => {
+router.use((req, res, next) => {
 	if (ENV === "development") {
 		res.setHeader("Access-Control-Allow-Origin", "*");
 		res.setHeader("Access-Control-Allow-Headers", "*");
 	}
 	next();
 })
-app.use('.netlify/functions/api', router);
+
+app.use('/.netlify/functions/api', router);
+
 if (ENV === "development") {
 	app.use('/', router);
 	app.listen(PORT, () => console.log(`App running on port ${PORT}`))
 }
 
 module.exports = app;
-module.exports.handler = router;
+module.exports.handler = serverless(app);
