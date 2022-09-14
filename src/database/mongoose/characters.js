@@ -17,7 +17,7 @@ const CharacterSchema = new Schema({
 	povBooks: { type: [ ObjectId ], ref: "Book" },
 	tvSeries: { type: [ String ] },
 	playedBy: { type: [ String ] },
-}, {toObject: {virtuals: true}});
+});
 
 // CharacterSchema.virtual('_books', {
 // 	ref: "Books",

@@ -6,6 +6,7 @@ const localStorage = new LocalStorage('./localStorage');
 const database   = require("./database/database");
 const axios      = require("axios");
 const { Types: { ObjectId } } = require("mongoose");
+const nodeB64 = require("node-base64-image")
 
 const books      = axios.create({ baseURL: 'https://anapioficeandfire.com/api/books/' })
 const characters = axios.create({baseURL: 'https://anapioficeandfire.com/api/characters/'});
@@ -159,9 +160,10 @@ async function main() {
 
 		for (let book of memory.books) {
 			let { isbn } = book;
-			// console.log(`Getting image for ${isbn} of ${book.name}`);
-			let image = await getWithCache(axios, imageURL(isbn), `image_${isbn}`);
-			book.image = Base64.encode(JSON.stringify(image));
+			console.log(`Getting image for ${isbn} of ${book.name}`);
+			// let image = await getWithCache(axios, imageURL(isbn), `image_${isbn}`);
+			// let {data:image} = await axios.get(imageURL(isbn));
+			book.image = await nodeB64.encode(imageURL(isbn), {string:true});
 		}
 		// memory.houses.map(c => {
 		// 	if (c.ancestralWeapons.some(b => typeof b === "string"))

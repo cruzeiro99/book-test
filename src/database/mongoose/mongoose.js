@@ -76,9 +76,12 @@ class MongooseStrategy {
 				resolve(data)
 			}
 			let find = this.model.find(query);
-			if (options.populate) {
+			if (options.populate)
 				options.populate.map(pop => find.populate(pop));
-			}
+			if (options.exclude)
+				options.exclude.map(ex => find.select(`-${ex}`));
+			else if (options.select)
+				options.select.map(s => find.select(s));
 			find.exec(callback);
 		})
 	}

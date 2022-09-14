@@ -1,23 +1,31 @@
-import React from "react"
+import "./app.less"
+import React, {useRef, useEffect, useState} from "react"
 import ReactDOM from "react-dom/client"
+import { app } from "Store"
+import {observer} from "mobx-react"
 
-function App() {
+import { Book } from "./components/book/Book"
+import { Books } from "./components/books/Books"
+import { PageLoading } from "./components/loading/loading"
+
+const App = observer(function App() {
+	const loaded = useRef(false);
+
+	if (app.fetchingBooks === true)
+		return <PageLoading/>
+
 	return (
 		<div className="App">
 			<main>
 				<div className="left">
-					<div className="Book">
-						
-					</div>
+					<Book book={app.book}/>
 				</div>
 				<div className="right">
-					<div className="Books">
-						
-					</div>
+					<Books/>
 				</div>
 			</main>
 		</div>
 	)
-}
+})
 
 ReactDOM.createRoot(document.querySelector('.root')).render(<App/>);
