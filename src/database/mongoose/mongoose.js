@@ -26,7 +26,7 @@ class MongooseStrategy {
 		this.query = new ChainedQuery(this);
 		this.models['books']      = Book;
 		this.models['characters'] = Character;
-		this.models['houses'] = House;
+		this.models['houses']     = House;
 		this.changeModel("books");
 		mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASS}@test.95mh8bs.mongodb.net/?retryWrites=true&w=majority`);
 	}
@@ -35,6 +35,21 @@ class MongooseStrategy {
 			throw new Error(`No module named ${name} in NedbStrategy`);
 		this.model = this.models[name];
 		return this;
+	}
+	insertMany(data, options={}) {
+		return new Promise((resolve, reject) => {
+			if (!data) {
+				// console.error("No data to insert on NeDB call");
+				return reject({ message: "Invalid data" });
+			}
+			this.model.insertMany(data, (err) => {
+				if (err) {
+					console.error(err);
+					return reject({message: "Internal error on insertMany occurred"});
+				}
+				resolve(true);
+			});
+		})
 	}
 	insert(data, options={}) {
 		return new Promise((resolve, reject) => {
@@ -45,7 +60,7 @@ class MongooseStrategy {
 			this.model.create(data, (err, newDocs) => {
 				if (err) {
 					console.error(err);
-					return reject({message: "Internal error occurred"});
+					return reject({message: "Internal error on insert occurred"});
 				}
 				resolve(newDocs);
 			});
@@ -53,9 +68,6 @@ class MongooseStrategy {
 	}
 	find(query, options={}) {
 		return new Promise((resolve, reject) => {
-			if (!query) {
-				return reject({ message: "Invalid find query" });
-			}
 			const callback = (err,data) => {
 				if (err) {
 					console.error(err);
@@ -63,7 +75,7 @@ class MongooseStrategy {
 				}
 				resolve(data)
 			}
-			let find = this.model.find(query, callback);
+			let find = this.model.find(query);
 			if (options.populate) {
 				options.populate.map(pop => find.populate(pop));
 			}

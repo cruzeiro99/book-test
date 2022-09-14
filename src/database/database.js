@@ -8,6 +8,9 @@ class Database {
 	changeStrategy(strategy) {
 		this.strategy = strategy;
 	}
+	async insertMany(data, options) {
+		return this.strategy.insertMany(data, options);
+	}
 	async insert(data, options) {
 		return this.strategy.insert(data, options);
 	}
@@ -16,6 +19,10 @@ class Database {
 	}
 	async truncate() {
 		return this.strategy.truncate();
+	}
+	get houses() {
+		this.strategy.changeModel("houses");
+		return this;
 	}
 	get books() {
 		this.strategy.changeModel("books");

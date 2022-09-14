@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll src/**/*.spec.js --runInBand"
+    "test": "jest --watchAll src/**/*.spec.js --runInBand",
+    "start:dev": "nodemon src/api.js",
+    "start": "node src/api.js",
+    "serve": "parcel serve client/index.html"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +16,7 @@
     "axios": "^0.27.2",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "js-base64": "^3.7.2",
     "mongoose": "^6.6.0",
     "nedb": "^1.8.0",
     "node-localstorage": "^2.2.1",
