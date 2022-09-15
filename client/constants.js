@@ -13,4 +13,5 @@ const envBased = (prod, dev, test) => {
 }
 
 // export const API = ENV === "development" ? "http://localhost:3001/" : href+".netlify/functions/api/"
-export const API = envBased(`${href}.netlify/functions/api/`, `${href}:3001/`, `${href}:3001/`)
+// export const API = envBased(`${href}.netlify/functions/api/`, `${href}:3001/`, `${href}:3001/`)
+export const API = envBased(`${href}api/`, `${href}:3001/`, `${href}:3001/`)

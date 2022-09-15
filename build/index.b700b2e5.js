@@ -34520,7 +34520,7 @@ const envBased = (prod, dev, test)=>{
             throw new Error(`invalid env: '${ENV}'`);
     }
 };
-const API = envBased(`${href}.netlify/functions/api/`, `${href}:3001/`, `${href}:3001/`);
+const API = envBased(`${href}api/`, `${href}:3001/`, `${href}:3001/`);
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"rxlu6"}],"lJYTi":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
