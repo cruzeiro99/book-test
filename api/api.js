@@ -88,12 +88,14 @@ app.use((req, res, next) => {
 	d.run(() => next())
 })
 // app.use('/.netlify/functions/api', router);
-app.use('/', router);
+app.use('/api', router);
 
 if (ENV === "development") {
 	app.use('/', router);
 	app.listen(PORT, () => console.log(`App running on port ${PORT}`))
 }
-
+// if (ENV === "production") {
+// 	app.use('/api', router);
+// }
 module.exports = app;
 module.exports.handler = serverless(app);
