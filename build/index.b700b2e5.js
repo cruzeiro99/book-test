@@ -34505,9 +34505,9 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ENV", ()=>ENV);
 parcelHelpers.export(exports, "API", ()=>API);
-const ENV = "production";
+const ENV = "development";
 // export const ENV = "production"
-let { href  } = window.location;
+let { href , hostname  } = window.location;
 const envBased = (prod, dev, test)=>{
     switch(ENV){
         case "development":
@@ -34520,7 +34520,8 @@ const envBased = (prod, dev, test)=>{
             throw new Error(`invalid env: '${ENV}'`);
     }
 };
-const API = envBased(`${href}api/`, `${href}:3001/`, `${href}:3001/`);
+const API = envBased(`${href}.netlify/functions/api/`, `${hostname}:3000/`, `${hostname}:3000/`) // export const API = envBased(`${href}api/`, `${href}:3001/`, `${href}:3001/`)
+;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"rxlu6"}],"lJYTi":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");

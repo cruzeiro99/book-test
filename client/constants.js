@@ -1,7 +1,7 @@
-export const ENV = "production"
+export const ENV = "development"
 // export const ENV = "production"
 
-let {href} = window.location;
+let {href, hostname} = window.location;
 
 const envBased = (prod, dev, test) => {
 	switch (ENV) {
@@ -12,6 +12,5 @@ const envBased = (prod, dev, test) => {
 	}
 }
 
-// export const API = ENV === "development" ? "http://localhost:3001/" : href+".netlify/functions/api/"
-// export const API = envBased(`${href}.netlify/functions/api/`, `${href}:3001/`, `${href}:3001/`)
-export const API = envBased(`${href}api/`, `${href}:3001/`, `${href}:3001/`)
+export const API = envBased(`${href}.netlify/functions/api/`, `http://${hostname}:3000/`, `http://${hostname}:3000/`)
+// export const API = envBased(`${href}api/`, `${href}:3001/`, `${href}:3001/`)

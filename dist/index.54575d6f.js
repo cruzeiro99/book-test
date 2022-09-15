@@ -27054,7 +27054,10 @@ class App {
     };
     async fetchBooks(setDefault = true) {
         this.fetchingBooks = true;
-        let { data  } = await (0, _apiDefault.default).get("/books").catch(console.error);
+        let { data  } = await (0, _apiDefault.default).get("/books").catch((err)=>{
+            console.error;
+            return {};
+        });
         if (!data) return;
         this._books = data;
         this.books = data;
@@ -31478,7 +31481,7 @@ const api = (0, _axiosDefault.default).create({
     baseURL: (0, _constants.API)
 });
 const URIS = {
-    image: (id)=>`${0, _constants.API}/bookImage/${id}`
+    image: (id)=>`${0, _constants.API}bookImage/${id}`
 };
 exports.default = api;
 
@@ -34504,7 +34507,7 @@ parcelHelpers.export(exports, "ENV", ()=>ENV);
 parcelHelpers.export(exports, "API", ()=>API);
 const ENV = "development";
 // export const ENV = "production"
-let { href  } = window.location;
+let { href , hostname  } = window.location;
 const envBased = (prod, dev, test)=>{
     switch(ENV){
         case "development":
@@ -34517,7 +34520,8 @@ const envBased = (prod, dev, test)=>{
             throw new Error(`invalid env: '${ENV}'`);
     }
 };
-const API = envBased(`${href}/.netlify/functions/api/`, `${href}:3001/`, `${href}:3001/`);
+const API = envBased(`${href}.netlify/functions/api/`, `http://${hostname}:3000/`, `http://${hostname}:3000/`) // export const API = envBased(`${href}api/`, `${href}:3001/`, `${href}:3001/`)
+;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"rxlu6"}],"lJYTi":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -35698,24 +35702,62 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _mobxReact = require("mobx-react");
 var _api = require("Api");
-const Book = (0, _mobxReact.observer)(_c = function Book({ book  }) {
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+var _axios = require("axios");
+var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _loading = require("./../loading/loading");
+var _s = $RefreshSig$();
+const Book = _s((0, _mobxReact.observer)(_c = _s(function Book({ book  }) {
+    _s();
     let { id , name , povCharacters  } = book;
+    const [loading, loadingImage] = (0, _react.useState)(true);
+    const [image, setImage] = (0, _react.useState)("");
+    (0, _react.useEffect)(()=>{
+        loadingImage(true);
+        (0, _axiosDefault.default).get((0, _api.URIS).image(id)).then(({ data  })=>{
+            if (!data) return;
+            setImage(data);
+            loadingImage(false);
+        });
+    }, [
+        id
+    ]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "Book",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "cover",
-                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                    src: (0, _api.URIS).image(id),
-                    alt: "Hello"
+                children: loading ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _loading.Spinner), {
+                    green: true
                 }, void 0, false, {
                     fileName: "client/components/book/Book.js",
-                    lineNumber: 10,
-                    columnNumber: 5
-                }, this)
+                    lineNumber: 27,
+                    columnNumber: 6
+                }, this) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+                    children: [
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                            className: "blurred",
+                            src: image,
+                            alt: name
+                        }, void 0, false, {
+                            fileName: "client/components/book/Book.js",
+                            lineNumber: 30,
+                            columnNumber: 7
+                        }, this),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                            src: image,
+                            alt: name
+                        }, void 0, false, {
+                            fileName: "client/components/book/Book.js",
+                            lineNumber: 31,
+                            columnNumber: 7
+                        }, this)
+                    ]
+                }, void 0, true)
             }, void 0, false, {
                 fileName: "client/components/book/Book.js",
-                lineNumber: 9,
+                lineNumber: 25,
                 columnNumber: 4
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35724,12 +35766,12 @@ const Book = (0, _mobxReact.observer)(_c = function Book({ book  }) {
                     children: name
                 }, void 0, false, {
                     fileName: "client/components/book/Book.js",
-                    lineNumber: 13,
+                    lineNumber: 36,
                     columnNumber: 5
                 }, this)
             }, void 0, false, {
                 fileName: "client/components/book/Book.js",
-                lineNumber: 12,
+                lineNumber: 35,
                 columnNumber: 4
             }, this),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35740,22 +35782,22 @@ const Book = (0, _mobxReact.observer)(_c = function Book({ book  }) {
                         children: char.name
                     }, char._id, false, {
                         fileName: "client/components/book/Book.js",
-                        lineNumber: 18,
+                        lineNumber: 41,
                         columnNumber: 7
                     }, this);
                 })
             }, void 0, false, {
                 fileName: "client/components/book/Book.js",
-                lineNumber: 15,
+                lineNumber: 38,
                 columnNumber: 4
             }, this)
         ]
     }, void 0, true, {
         fileName: "client/components/book/Book.js",
-        lineNumber: 8,
+        lineNumber: 24,
         columnNumber: 3
     }, this);
-});
+}, "WQNjpqvy1m9kS1z2INBOSMQ47Jk=")), "WQNjpqvy1m9kS1z2INBOSMQ47Jk=");
 _c1 = Book;
 var _c, _c1;
 $RefreshReg$(_c, "Book$observer");
@@ -35766,7 +35808,103 @@ $RefreshReg$(_c1, "Book");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","mobx-react":"lJYTi","Api":"60kJT","@parcel/transformer-js/src/esmodule-helpers.js":"rxlu6","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5Rrlw"}],"5Rrlw":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","mobx-react":"lJYTi","Api":"60kJT","classnames":"jocGM","axios":"jo6P5","./../loading/loading":"gFo5B","@parcel/transformer-js/src/esmodule-helpers.js":"rxlu6","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5Rrlw"}],"jocGM":[function(require,module,exports) {
+/*!
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
+*/ /* global define */ (function() {
+    "use strict";
+    var hasOwn = {}.hasOwnProperty;
+    var nativeCodeString = "[native code]";
+    function classNames() {
+        var classes = [];
+        for(var i = 0; i < arguments.length; i++){
+            var arg = arguments[i];
+            if (!arg) continue;
+            var argType = typeof arg;
+            if (argType === "string" || argType === "number") classes.push(arg);
+            else if (Array.isArray(arg)) {
+                if (arg.length) {
+                    var inner = classNames.apply(null, arg);
+                    if (inner) classes.push(inner);
+                }
+            } else if (argType === "object") {
+                if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
+                    classes.push(arg.toString());
+                    continue;
+                }
+                for(var key in arg)if (hasOwn.call(arg, key) && arg[key]) classes.push(key);
+            }
+        }
+        return classes.join(" ");
+    }
+    if (module.exports) {
+        classNames.default = classNames;
+        module.exports = classNames;
+    } else if (typeof define === "function" && typeof define.amd === "object" && define.amd) // register as 'classnames', consistent with npm package name
+    define("classnames", [], function() {
+        return classNames;
+    });
+    else window.classNames = classNames;
+})();
+
+},{}],"gFo5B":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$bad7 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$bad7.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Spinner", ()=>Spinner);
+parcelHelpers.export(exports, "PageLoading", ()=>PageLoading);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _loadingLess = require("./loading.less");
+var _classnames = require("classnames");
+var _classnamesDefault = parcelHelpers.interopDefault(_classnames);
+function Spinner({ show =true , green  }) {
+    const spinnerCN = (0, _classnamesDefault.default)("Spinner", {
+        show,
+        green
+    });
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: spinnerCN
+    }, void 0, false, {
+        fileName: "client/components/loading/loading.js",
+        lineNumber: 8,
+        columnNumber: 3
+    }, this);
+}
+_c = Spinner;
+function PageLoading() {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "PageLoading",
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Spinner, {}, void 0, false, {
+            fileName: "client/components/loading/loading.js",
+            lineNumber: 15,
+            columnNumber: 4
+        }, this)
+    }, void 0, false, {
+        fileName: "client/components/loading/loading.js",
+        lineNumber: 14,
+        columnNumber: 3
+    }, this);
+}
+_c1 = PageLoading;
+var _c, _c1;
+$RefreshReg$(_c, "Spinner");
+$RefreshReg$(_c1, "PageLoading");
+
+  $parcel$ReactRefreshHelpers$bad7.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./loading.less":"lYnXN","classnames":"jocGM","@parcel/transformer-js/src/esmodule-helpers.js":"rxlu6","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5Rrlw"}],"lYnXN":[function() {},{}],"5Rrlw":[function(require,module,exports) {
 "use strict";
 var Refresh = require("react-refresh/runtime");
 function debounce(func, delay) {
@@ -35957,45 +36095,6 @@ $RefreshReg$(_c1, "Books");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","mobx-react":"lJYTi","Store":"c4cfo","@parcel/transformer-js/src/esmodule-helpers.js":"rxlu6","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5Rrlw"}],"gFo5B":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$bad7 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$bad7.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "PageLoading", ()=>PageLoading);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _loadingLess = require("./loading.less");
-function PageLoading() {
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: "PageLoading",
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-            className: "spinner"
-        }, void 0, false, {
-            fileName: "client/components/loading/loading.js",
-            lineNumber: 7,
-            columnNumber: 4
-        }, this)
-    }, void 0, false, {
-        fileName: "client/components/loading/loading.js",
-        lineNumber: 6,
-        columnNumber: 3
-    }, this);
-}
-_c = PageLoading;
-var _c;
-$RefreshReg$(_c, "PageLoading");
-
-  $parcel$ReactRefreshHelpers$bad7.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./loading.less":"lYnXN","@parcel/transformer-js/src/esmodule-helpers.js":"rxlu6","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5Rrlw"}],"lYnXN":[function() {},{}]},["6ZiQC","jopkw","2PTrU"], "2PTrU", "parcelRequire1cf6")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","mobx-react":"lJYTi","Store":"c4cfo","@parcel/transformer-js/src/esmodule-helpers.js":"rxlu6","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5Rrlw"}]},["6ZiQC","jopkw","2PTrU"], "2PTrU", "parcelRequire1cf6")
 
 //# sourceMappingURL=index.54575d6f.js.map

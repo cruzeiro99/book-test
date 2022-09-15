@@ -10,10 +10,10 @@
   },
   "scripts": {
     "test": "jest --watchAll function/**/*.spec.js --runInBand",
-    "start:dev": "nodemon functions/api.js",
+    "dev:start": "nodemon functions/api.js",
     "start": "node functions/api.js",
-    "parcel:serve": "parcel serve client/index.html --port 3001 --dist-dir build",
-    "serve": "netlify dev --live -p 3000",
+    "dev:serve": "parcel serve client/index.html --port 3001 --dist-dir dist",
+    "net:serve": "netlify dev --live -p 3000",
     "build": "parcel build client/index.html --dist-dir build",
     "deploy": "npm run build && netlify deploy --prod"
   },

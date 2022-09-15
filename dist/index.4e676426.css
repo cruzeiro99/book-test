@@ -112,13 +112,28 @@ body, .root, .App {
 
 .App main .left .Book .cover {
   width: 100%;
-  background: #dbdbdb;
+  background: #0003;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  overflow: hidden;
 }
 
 .App main .left .Book .cover img {
-  width: 100%;
+  width: auto;
   height: 100%;
-  display: block;
+  z-index: 2;
+}
+
+.App main .left .Book .cover .blurred {
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  filter: blur(15px);
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .App main .right {
@@ -182,11 +197,15 @@ body, .root, .App {
   display: flex;
 }
 
-.PageLoading .spinner {
+.Spinner {
   border: 20px solid #fff;
   border-left-color: #0000;
   border-radius: 100%;
   animation: spinner 1s linear infinite;
+}
+
+.Spinner.green {
+  border-color: #90ee90 #90ee90 #90ee90 #0000;
 }
 
 @keyframes spinner {

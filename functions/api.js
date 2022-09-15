@@ -87,8 +87,8 @@ app.use((req, res, next) => {
 	})
 	d.run(() => next())
 })
-// app.use('/.netlify/functions/api', router);
-app.use('/api', router);
+app.use('/.netlify/functions/api', router);
+// app.use('/api', router);
 
 if (ENV === "development") {
 	app.use('/', router);

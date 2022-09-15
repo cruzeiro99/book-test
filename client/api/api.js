@@ -5,7 +5,7 @@ const api = axios.create({
 	baseURL: API
 })
 export const URIS = {
-	image: (id) => `${API}/bookImage/${id}`
+	image: (id) => `${API}bookImage/${id}`
 }
 
 export default api;
