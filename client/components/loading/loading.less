@@ -5,14 +5,18 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	.spinner {
-		border: 20px solid white;
-		border-radius: 100%;
+}
+.Spinner {
+	border: 20px solid white;
+	border-radius: 100%;
+	border-left-color: transparent;
+	animation: spinner 1s infinite linear;
+	&.green {
+		border-color: lightgreen;
 		border-left-color: transparent;
-		animation: spinner 1s infinite linear;
-		@keyframes spinner {
-			0% {transform: rotate(0deg);}
-			100% {transform: rotate(360deg);}
-		}
+	}
+	@keyframes spinner {
+		0%   { transform: rotate(0deg);   }
+		100% { transform: rotate(360deg); }
 	}
 }

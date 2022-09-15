@@ -91,11 +91,25 @@ body, .root, .App {
 				}
 				.cover {
 					width: 100%;
-					background: #dbdbdb;
+					background: @20Black;
+					position: relative;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					overflow: hidden;
 					img {
-						display: block;
-						width: 100%;
+						width: auto;
 						height: 100%;
+						z-index: 2;
+					}
+					.blurred {
+						z-index: 1;
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: auto;
+						filter: blur(15px);
 					}
 				}
 			}

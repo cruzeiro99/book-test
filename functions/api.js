@@ -2,11 +2,14 @@ const path = require("path");
 require("dotenv").config({path: path.resolve(".env")})
 const express = require("express");
 const database = require("./database/database");
-const {Base64} = require("js-base64")
 const {ENV,PORT} = process.env;
 const axios = require('axios')
 const serverless = require("serverless-http");
-const base64 = require("js-base64")
+// const base64 = require("js-base64")
+// const {Base64} = require("js-base64")
+const nodeB64 = require("node-base64-image")
+const {Base64} = require("js-base64")
+const domain = require("node:domain");
 
 const app = express();
 const router = express.Router();
@@ -30,17 +33,29 @@ router.use((req, res, next) => {
 	res.setHeader("Access-Control-Allow-Headers", "*");
 	next();
 })
+router.get("/characters", async (req, res) => {
+	let data = await database.characters.find({})
+	res.json(data);
+})
+router.get("/characters/:id", async (req, res) => {
+	let id = parseInt(req.params.id);
+	let data = await database.characters.find({id});
+	if (data.length < 1)
+		return res.status(404).json({message: "Not found"})
+	res.json(data[0]);
+})
 router.get("/bookImage/:id", async (req, res) => {
 	let id = parseInt(req.params.id);
 	let books = await database.books.find({ id }, {select: ['image']})
 	if (books.length < 1)
 		return res.send(`Error getting image for ${id}`);
-	let image = Buffer.from(books[0].image, 'base64');
-	// let image = "data:image/jpg;base64,"+books[0].image;
-	res.setHeader("Content-Type", "image/jpg");
-	res.setHeader("Content-Length", image.length.toString());
+	let image = books[0].image.toString('base64');
+	image = 'data:image/jpeg; base64,'+image;
+	res.writeHead(200, {
+		"Content-Type": 'text/plain',
+		"Content-Length": image.length.toString()
+	});
 	res.end(image);
-	// res.send(image);
 })
 router.get("/books", async (req, res) => {
 	console.time("FETCHING BOOKS")
@@ -60,6 +75,18 @@ router.get('/book/:id', async (req, res) => {
 	res.json(data);
 })
 
+app.use((req, res, next) => {
+	let d = domain.create();
+	d.on('error', (err) => {
+			if (err) {
+				console.error(err);
+				res.json({error: "Erro no servidor"});
+			} else {
+				next();
+			}
+	})
+	d.run(() => next())
+})
 app.use('/.netlify/functions/api', router);
 
 if (ENV === "development") {

@@ -4,7 +4,7 @@ const BooksSchema = new Schema({
 	id: { type: Number, required: true, unique: true, index:true },
 	name: { type: String, default: "A Game of Thrones" },
 	isbn: { type: String, default: "" },
-	image: { type: String, default: "" },
+	image: { type: Buffer },
 	authors: [ { type: String } ],
 	numberOfPages: { type: Number },
 	publisher: { type: String, default: "Bantam Books" },

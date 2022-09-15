@@ -61,7 +61,7 @@ export class App {
 	async fetchBooks(setDefault=true) {
 		this.fetchingBooks = true;
 		let {data} = await api.get("/books")
-			.catch(console.error);
+			.catch((err) => {console.error; return {};});
 		if (!data)
 			return;
 		this._books = data;

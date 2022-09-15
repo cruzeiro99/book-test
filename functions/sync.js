@@ -162,8 +162,11 @@ async function main() {
 			let { isbn } = book;
 			console.log(`Getting image for ${isbn} of ${book.name}`);
 			// let image = await getWithCache(axios, imageURL(isbn), `image_${isbn}`);
-			// let {data:image} = await axios.get(imageURL(isbn));
-			book.image = await nodeB64.encode(imageURL(isbn), {string:true});
+			let {data:image, headers} = await axios.get(imageURL(isbn), {responseType: 'arraybuffer'});
+			const type = headers['content-type'];
+			// image = image;
+			// image = `data:${type};base64,`+image;
+			book.image = Buffer.from(image);
 		}
 		// memory.houses.map(c => {
 		// 	if (c.ancestralWeapons.some(b => typeof b === "string"))

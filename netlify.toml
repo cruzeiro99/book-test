@@ -16,27 +16,7 @@
 [context.production]
   publish = "build/"
   command = "echo 'hello'"
-  environment = { NODE_VERSION = "14.15.3" }
-
-# Deploy Preview context: all deploys generated from
-# a pull/merge request will inherit these settings.
-[context.deploy-preview]
-  publish = "dist/"
-
-# Here is an example of how to define context-specific
-# environment variables. Be mindful when using this
-# option and avoid committing sensitive values to public
-# source repositories.
-[context.deploy-preview.environment]
-  NOT_PRIVATE_ITEM = "not so secret"
-
-# Branch Deploy context: all deploys that are not from
-# a pull/merge request or from the Production branch
-# will inherit these settings.
-[context.branch-deploy]
-  command = "echo branch"
-[context.branch-deploy.environment]
-  NODE_ENV = "development"
+  environment = { NODE_VERSION = "18.8.0" }
 
 # Dev context: environment variables set here 
 # are available for local development environments 

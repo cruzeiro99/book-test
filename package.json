@@ -5,14 +5,17 @@
   "alias": {
     "constants": "./client/constants.js",
     "Store": "./client/store/store.js",
-    "Api": "./client/api/api.js"
+    "Api": "./client/api/api.js",
+    "process": false
   },
   "scripts": {
     "test": "jest --watchAll function/**/*.spec.js --runInBand",
     "start:dev": "nodemon functions/api.js",
     "start": "node functions/api.js",
-    "serve": "parcel serve client/index.html",
-    "build": "parcel build client/index.html --dist-dir build"
+    "parcel:serve": "parcel serve client/index.html --port 3001 --dist-dir build",
+    "serve": "netlify dev --live -p 3000",
+    "build": "parcel build client/index.html --dist-dir build",
+    "deploy": "npm run build && netlify deploy --prod"
   },
   "keywords": [],
   "author": "",
